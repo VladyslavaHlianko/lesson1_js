@@ -13,7 +13,8 @@ do{
     if (email.endsWith(' ') || email.startsWith(' ')) {
         error = error + 'Email should not contain spaces at the beginning and at the end \n';
     }
-    if (email.includes('@') === false) {
+    let emailLength = email.match(/[@]/g);
+    if (email.includes('@') === false || emailLength.length !== 1) {
         error = error + 'Email should contain one symbol "@" \n';
     }
     if (email.length > 15) {
