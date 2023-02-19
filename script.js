@@ -28,9 +28,9 @@ function getInfo(headTable, arr){
         //   document.write(universes);
         // })
       var animalsImg = arr[i][j];
-      document.write(`<div class='one'>${animalsImg}</div>`); 
+      document.write(`<div class='table'>${animalsImg}</div>`); 
       }   
-    document.write(`<div class='two'></div>`); 
+    document.write(`<div></div>`); 
   }
 }
 
