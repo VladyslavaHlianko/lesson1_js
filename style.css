@@ -1,0 +1,15 @@
+body{
+    padding-left: 50px;
+}
+.one{
+    display: inline-block;
+    padding: 5px 10px;
+    border: 1px solid black;
+    font-size: 22px;
+    line-height: 16px;
+}
+.head{
+    margin-left: 50px;
+    font-weight: bold;
+    font-size: 18px;
+}
