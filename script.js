@@ -1,6 +1,6 @@
 const ITCompany = {
   id: 12332129,
-  сompanyName: 'Playtika',
+  companyName: 'Playtika',
   type: 'product',
   vacancies: [
     {
@@ -26,36 +26,40 @@ const ITCompany = {
   ]
 };
 
-function worker() {
-  const userName = prompt('Введіть Ваше і`мя');
-  const positionName = prompt('Введіть Вашу позицію. В наявності backEnd, frontEnd, scramMaster, tester');
-  const userSalary = prompt('Введіть Вашу зарплатню');
-  let success = false;
+class Worker {
+  constructor(userName, positionName, userSalary) {
+    this.userName = userName;
+    this.positionName = positionName;
+    this.userSalary = userSalary;
+  }
 
-  ITCompany.vacancies.forEach((vacancy) => {
+  greeting() {
+    document.write(`hello my name is ${this.userName}, im ${this.positionName} in ${this.companyName}`);
+  }
+}
+
+function createWorker() {
+  const userName = prompt('Введите Ваше имя');
+  const positionName = prompt('Введите Вашу позицию. В наличии backEnd, frontEnd, scramMaster, tester');
+  const userSalary = prompt('Введите Вашу зарплату');
+
+  let success = false;
+  ITCompany.vacancies.forEach(vacancy => {
     const vacancyKeys = Object.keys(vacancy);
-    if (vacancyKeys[0].toLowerCase() === positionName.toLowerCase()){
+    if (vacancyKeys[0].toLowerCase() === positionName.toLowerCase()) {
       const salary = vacancy[vacancyKeys[0]].salary;
       if (Number(salary) >= Number(userSalary)) {
         success = true;
       }
     }
   });
-
-  const newWorker = Object.create(ITCompany);
-  function greeting() {
-    if (success) {
-      this.workerName = userName;
-      this.position = positionName;
-      this.salary = userSalary;
-      document.write(`hello my name is ${this.workerName}, im ${positionName} in ${this.сompanyName}`);
-    } else {
-      document.write(`${userName}, you have significant skills at ${positionName}, but we hired another developer. Let's keep in contact!`);
-    }
+  if (success) {
+    const newWorker = new Worker(userName, positionName, userSalary);
+    Object.setPrototypeOf(newWorker, Object.assign(Worker.prototype, ITCompany));
+    newWorker.greeting();
+  } else {
+    document.write(`${userName}, you have significant skills at ${positionName}, but we hired another developer. Let's keep in contact!`);
   }
-
-  greeting.call(newWorker);
-  console.log(newWorker);
 }
 
-worker();
+createWorker();
