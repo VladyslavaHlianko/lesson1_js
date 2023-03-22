@@ -1,0 +1,22 @@
+.block{
+    width: 100px;
+    height: 100px;
+    background: grey;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    transition: 1s;
+}
+.block_text::before{
+    content: 'БЕМС';
+    display: block;
+    text-align: center;
+    position: relative;
+    top: calc(50% - 19px);
+    transform: translateY(50%);
+}
+body{
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+}
