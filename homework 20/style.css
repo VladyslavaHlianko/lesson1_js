@@ -94,7 +94,6 @@ h1{
     width: 25px;
     margin: 1px 2px;
     border-radius: 2px;
-    background-color: red;
     display: inline-block;
     transition: box-shadow 0.6s ease;
 }
