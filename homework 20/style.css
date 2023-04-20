@@ -1,0 +1,115 @@
+*, *::after, *::before{
+    box-sizing: border-box;
+}
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+body, html{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 23px;
+}
+.wrapper{
+    text-align: center;
+    margin-top: 50px;
+}
+h2{
+    margin-top: 5px;
+    line-height: 1;
+    color: transparent;
+    background-image: linear-gradient(74deg,#ff0000,#AF233E);
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: hue 1s infinite linear;
+}
+
+@keyframes hue {
+    0% {
+        filter: hue-rotate(0deg);
+    }
+    100% {
+        filter: hue-rotate(-360deg);
+    }
+}
+
+p{
+    font-size: 50px;
+    margin-top: 5px;
+    font-weight: 500;
+    line-height: 1;
+    margin-bottom: 14px;
+}
+h1{
+    margin: 4px 0 0 0;
+    line-height: 1;
+}
+.active{
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08), 0 3px 6px rgba(0, 0, 0, 0.15);
+    margin-bottom: 1px;
+}
+.colors{
+    cursor: pointer;
+    height: 35px;
+    width: 25px;
+    margin: 1px 2px;
+    border-radius: 2px;
+    background-color: red;
+    display: inline-block;
+    transition: box-shadow 0.6s ease;
+}
+.car{
+    width: 100%;
+}
+.colorBlock{
+    max-width: 1000px;
+    margin: auto;
+}
+.text{
+    color: #cccccc;
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+.green-lotus{
+    border-bottom: 3px solid #f8a00d;
+}
