@@ -42,10 +42,10 @@ const API = {
     ).then((res) => res.json());
   },
 
-  createTitle: async (title, description) => {
+  createTitle: async (title, description, completed) => {
     return await fetch(`https://61498bf2035b3600175ba32f.mockapi.io/todo`, {
       method: "POST",
-      body: JSON.stringify({ title, description, completed: false }),
+      body: JSON.stringify({ title, description, completed }),
       headers: {
         "content-type": "application/json",
       },

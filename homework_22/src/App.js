@@ -86,13 +86,22 @@ function App() {
     }
   };
 
-  const createTitle = (title, description) => {
-    API.createTitle(title, description).then((res) => {
-      setState((prevState) => ({
-        todos: [...prevState.todos, res],
-        listToRender: [...prevState.listToRender, res],
-      }));
-    });
+  const createTitle = (title, description, completed) => {
+    const { filter } = state;
+    const newTodo = {
+      title,
+      description,
+      completed: filter === "completed",
+    };
+
+    API.createTitle(newTodo.title, newTodo.description, newTodo.completed).then(
+      (res) => {
+        setState((prevState) => ({
+          todos: [...prevState.todos, res],
+          listToRender: [...prevState.listToRender, res],
+        }));
+      }
+    );
   };
 
   const fetchTodos = async () => {

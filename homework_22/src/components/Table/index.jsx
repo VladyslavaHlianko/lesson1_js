@@ -2,7 +2,7 @@ import React from "react";
 import Row from "./components/Row";
 import "./styles.module.sass";
 
-const Table = ({ todoList, updateStatus, deleteElement, updateElement }) => {
+const Table = ({ todoList, updateStatus, deleteElement, updateElement, filter }) => {
   const [selectAll, setSelectAll] = React.useState(false);
 
   const handleSelectAllChange = (event) => {
@@ -35,6 +35,7 @@ const Table = ({ todoList, updateStatus, deleteElement, updateElement }) => {
                 updateStatus={updateStatus}
                 deleteElement={deleteElement}
                 updateElement={updateElement}
+                filter={filter}
               />
             ))
           : null}
@@ -44,3 +45,4 @@ const Table = ({ todoList, updateStatus, deleteElement, updateElement }) => {
 };
 
 export default Table;
+
