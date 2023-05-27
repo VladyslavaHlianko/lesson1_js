@@ -1,0 +1,73 @@
+*, *::after, *::before
+    box-sizing: border-box
+    margin: 0
+    padding: 0
+
+html
+    background: #f8f8f8
+    width: 100%
+    height: 100%
+
+header
+    background: rgb(68, 158, 68)
+    height: 50px
+    padding: 5px 120px
+    display: flex
+    justify-content: space-between
+    margin-bottom: 20px
+
+.logo
+    width: 35px
+    height: 40px
+
+.header
+    display: flex
+    align-items: center
+    gap: 10px
+
+.hi
+    display: flex
+    gap: 5px
+    color: white
+
+.log_out
+    color: white
+    margin: 0 0 0 10px
+    cursor: pointer
+    text-decoration: none
+    padding-bottom: 2px
+    border-bottom: 1px dashed white
+
+.line
+    width: 1px
+    height: 30px
+    background: white
+
+.log_in
+    text-decoration: none
+    padding-bottom: 2px
+    border-bottom: 1px dashed white
+    color: white
+
+.basket_link img
+    height: 25px
+
+.basket_link    
+    position: relative
+
+.basket
+    position: absolute
+    color: rgb(68, 158, 68)    
+    right: -3px
+    top: -4.5px
+    font-size: 12px
+
+.basket_link::before
+    content: ''
+    position: absolute
+    top: -3px
+    right: -7px
+    width: 15px
+    height: 15px
+    border-radius: 50%
+    background: white
