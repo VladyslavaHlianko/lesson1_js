@@ -3,6 +3,10 @@ import "./style.sass";
 import API from "./../../services/api.js";
 import { Link } from "react-router-dom";
 
+import { Box, Typography, CardMedia } from '@mui/material';
+
+
+
 const Home = ({ updateCartItemCount, deleteProduct }) => {
   const [products, setProducts] = useState([]);
   const [loggedInUser, setLoggedInUser] = useState(null);
@@ -140,73 +144,102 @@ const Home = ({ updateCartItemCount, deleteProduct }) => {
     localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
   }, [loggedInUser]);
 
-  return (
-    <div className="wrapper">
-      {Object.entries(products).map(([category, categoryProducts]) => (
-        <section key={category} className={category.toLowerCase()}>
-          <h2>{category}</h2>
-          <div className={`${category.toLowerCase()}_cards`}>
-            {categoryProducts.map((product) => (
-              <div className="card_transport" key={product.id}>
-                <img
-                  className="img"
-                  alt={product.title}
-                  src={`./image/products/${product.img}.png`}
-                />
-                <div className="transport_inform">
-                  <div className="transport_name">
-                    <h3 className="transport_name-title">{product.title}</h3>
-                    {product.sale ? (
-                      <div className="transport_discont">
-                        <p className="old_price">${product.price}</p>
-                        <div className="transport_discont-amount">
-                          -{product.salePercent}%
-                        </div>
-                      </div>
-                    ) : null}
-                  </div>
-                  <div className="card_transport-price">
-                    <h3 className="price">
-                      {product.sale
-                        ? `$${
-                            product.price -
-                            product.price * (product.salePercent / 100)
-                          }`
-                        : `$${product.price}`}
-                    </h3>
-                    <button
-                      onClick={(e) => addProduct(product, e.target)}
-                      className={
+  
+
+return (
+  <Box className="wrapper">
+    {Object.entries(products).map(([category, categoryProducts]) => (
+      <Box key={category} className={category.toLowerCase()}>
+        <Typography variant="h2" sx={{ fontWeight: 'bold', fontSize: '22px', marginBottom: '20px' }}>
+          {category}
+        </Typography>
+        <Box className={`${category.toLowerCase()}_cards`} sx={{ display: 'flex', gap: '20px' }}>
+          {categoryProducts.map((product) => (
+            <Box className="card_transport" key={product.id} sx={{
+              padding: '20px',
+              background: 'white',
+              width: '220px',
+              textAlign: 'center',
+              borderRadius: '5px',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flexDirection: 'column',
+              display: 'flex',
+              boxShadow: '1px 2px 5px rgb(213, 213, 213)'
+            }}>
+              <CardMedia
+                className="img"
+                component="img"
+                alt={product.title}
+                src={`./image/products/${product.img}.png`}
+                sx={{ width: '80px' }}
+              />
+              <Box className="transport_inform" sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexDirection: 'column',
+                width: '100%',
+                height: '100%',
+                gap: '15px',
+                marginTop: '15px'
+              }}>
+                <Box className="transport_name" sx={{ display: 'flex', flexFlow: 'column', alignItems: 'start' }}>
+                  <Typography variant="h3" className="transport_name-title" sx={{ fontWeight: 'bold', fontSize: '18px' }}>
+                    {product.title}
+                  </Typography>
+                  {product.sale ? (
+                    <Box className="transport_discont" sx={{ display: 'flex', alignItems: 'center', gap: '15px', margin: '15px 0 auto' }}>
+                      <Typography variant="body1" className="old_price" sx={{ textDecoration: 'line-through', color: 'rgb(155, 155, 155)' }}>
+                        ${product.price}
+                      </Typography>
+                      <Box className="transport_discont-amount" sx={{ color: 'white', background: 'rgb(86, 159, 86)', padding: '3px 7px', borderRadius: '5px', fontSize: '12px' }}>
+                        -{product.salePercent}%
+                      </Box>
+                    </Box>
+                  ) : null}
+                </Box>
+                <Box className="card_transport-price" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <Typography variant="h3" className="price" sx={{ fontWeight: 'bold', fontSize: '18px' }}>
+                    {product.sale
+                      ? `$${product.price - product.price * (product.salePercent / 100)}`
+                      : `$${product.price}`}
+                  </Typography>
+                  <button
+                    onClick={(e) => addProduct(product, e.target)}
+                    style={{
+                      background:
                         loggedInUser &&
                         loggedInUser.shoppingCart &&
                         loggedInUser.shoppingCart.length > 0 &&
-                        loggedInUser.shoppingCart.some(
-                          (item) => item.id === product.id
-                        )
-                          ? "product__cart-in"
-                          : "product__cart"
-                      }
-                    >
-                      {loggedInUser &&
-                      loggedInUser.shoppingCart &&
-                      loggedInUser.shoppingCart.length > 0 &&
-                      loggedInUser.shoppingCart.some(
-                        (item) => item.id === product.id
-                      ) ? (
-                        <img src={`./image/shopping-cart.png`} alt="" />
-                      ) : (
-                        <img src={`./image/shopping-cart.png`} alt="" />
-                      )}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      ))}
-    </div>
-  );
+                        loggedInUser.shoppingCart.some((item) => item.id === product.id)
+                          ? 'green'
+                          : '#e60303',
+                      padding: '3px 10px',
+                      borderRadius: '5px',
+                      cursor: 'pointer',
+                      border: 'none',
+                    }}
+                  >
+                    {loggedInUser &&
+                    loggedInUser.shoppingCart &&
+                    loggedInUser.shoppingCart.length > 0 &&
+                    loggedInUser.shoppingCart.some((item) => item.id === product.id) ? (
+                      <img src={`./image/shopping-cart.png`} alt="" style={{ height: '20px' }} />
+                    ) : (
+                      <img src={`./image/shopping-cart.png`} alt="" style={{ height: '20px' }} />
+                    )}
+                  </button>
+                </Box>
+              </Box>
+            </Box>
+          ))}
+        </Box>
+      </Box>
+    ))}
+  </Box>
+);
+
 };
+
 
 export default Home;

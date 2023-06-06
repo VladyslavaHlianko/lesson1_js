@@ -14,7 +14,9 @@ export default function Header({ logOut }) {
     if (loggedInUser) {
       setBasketCount(loggedInUser.shoppingCart.length);
     }
-  }, []);
+  }, [loggedInUser]);
+
+
 
   return (
     <header>

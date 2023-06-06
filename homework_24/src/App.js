@@ -7,21 +7,16 @@ import Home from "./pages/home";
 import { Route, Routes } from "react-router-dom";
 import NotFound from "./pages/notFound";
 import { Navigate } from "react-router-dom";
+import PrivateRoute from "./pages/components/PrivateRoute.jsx";
 
 function App() {
   const [basketCount, setBasketCount] = useState(0);
 
-  const updateCartItemCount = (count) => {
-    setLoggedInUser((prevUser) => {
-      if (prevUser) {
-        const updatedUser = { ...prevUser, shoppingCart: count };
-        localStorage.setItem("loggedInUser", JSON.stringify(updatedUser));
-        console.log("Updated basketCount:", count);
-        setBasketCount(count);
-        return updatedUser;
-      }
-      return null;
-    });
+  const updateCartItemCount = () => {
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+    if (loggedInUser) {
+      setBasketCount(loggedInUser.shoppingCart.length);
+    }
   };
 
   const handleSignIn = async (email, password) => {
@@ -75,10 +70,9 @@ function App() {
       loggedInUser.shoppingCart = updatedShoppingCart;
 
       localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
-
       await API.updateUserData(userId, loggedInUser);
-      let loggedUser = JSON.parse(localStorage.getItem("loggedInUser"));
-      setBasketCount(loggedUser.shoppingCart.length);
+
+      updateCartItemCount();
       console.log("Product deleted successfully");
       console.log("Updated loggedInUser:", loggedInUser);
     } catch (error) {
@@ -91,7 +85,7 @@ function App() {
     try {
       const users = await API.getUsers();
       const matchedUser = users.some((user) => user.email === email);
-
+  
       if (password !== verifyPassword) {
         throw new Error("Password does not match!");
       } else if (matchedUser) {
@@ -106,10 +100,13 @@ function App() {
           shoppingCart: [],
           status: true,
         };
-
-        await API.createUser(newUser);
+  
+        const createdUser = await API.createUser(newUser);
         console.log("User created successfully");
-        localStorage.setItem("loggedInUser", JSON.stringify(newUser));
+  
+        localStorage.setItem("loggedInUser", JSON.stringify(createdUser));
+        setLoggedInUser(createdUser); 
+  
         window.location.href = "/home";
       }
     } catch (error) {
@@ -117,6 +114,7 @@ function App() {
       setErrorCreate(error.message);
     }
   };
+  
 
   const [errorSignIn, setErrorSignIn] = useState("");
   const [errorCreate, setErrorCreate] = useState("");
@@ -125,45 +123,51 @@ function App() {
     const storedUser = JSON.parse(localStorage.getItem("loggedInUser"));
     if (storedUser) {
       setLoggedInUser(storedUser);
+      setBasketCount(storedUser.shoppingCart.length);
     }
   }, []);
 
   useEffect(() => {
     if (loggedInUser) {
-      setBasketCount(loggedInUser.shoppingCart.length);
+      
+      updateCartItemCount();
     }
   }, [loggedInUser]);
 
+
   return (
     <>
-      <Header logOut={logOut} />
-      <Routes>
-        <Route
-          path="/login"
-          element={
-            <Login
-              handleSignIn={handleSignIn}
-              handleCreateAccount={handleCreateAccount}
-              signInError={errorSignIn}
-              createError={errorCreate}
-            />
-          }
-        />
-        <Route path="/" element={<Navigate to="/home" />} />
-        <Route
-          path="/home"
-          element={
+    <Header logOut={logOut} />
+    <Routes>
+      <Route
+        path="/login"
+        element={
+          <Login
+            handleSignIn={handleSignIn}
+            handleCreateAccount={handleCreateAccount}
+            signInError={errorSignIn}
+            createError={errorCreate}
+          />
+        }
+      />
+      <Route path="/" element={<Navigate to="/home" />} />
+      <Route
+        path="/home"
+        element={
+          <PrivateRoute>
             <Home
               updateCartItemCount={updateCartItemCount}
               loggedInUser={loggedInUser}
               deleteProduct={deleteProduct}
             />
-          }
-        />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+          </PrivateRoute>
+        }
+      />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
     </>
   );
-}
+};
+
 
 export default App;
