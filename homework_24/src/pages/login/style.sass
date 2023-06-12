@@ -1,83 +1,15 @@
-*, *::after, *::before
-    box-sizing: border-box
-
 html
     background: #f8f8f8
     width: 100%
     height: 100%
 
-
-
-
-
-input
-    display: block
-    width: 100%
-    margin-bottom: 10px
-    border: 2px solid grey
-    border-radius: 5px
-    padding: 10px
-
-
-
-
-.error.visible,
-.errorCreate.visible 
+.input-field, .input
+  border-radius: 5px
+  margin-bottom: 10px
   display: block
+  width: 100%
+  border: 2px solid grey
+  padding: 10px
 
-.sign_in, .btn_delete
-    background: rgb(207, 23, 23)
-    color: white
-    border: none
-    cursor: pointer
-    border-radius: 30px
-    padding: 10px 30px    
-    font-weight: bold
-
-
-
-
-
-.wrapper
-    padding: 0 120px
-
-.registr
-    display: flex
-    justify-content: space-between    
-    gap: 41px
-    padding: 20px 0 0
-
-h1
-    font-size: 28px
-    font-weight: bold
-    margin-bottom: 10px
-    
-.subtitle
-    font-size: 16px
+.input
     margin-bottom: 15px
-    font-weight: 600
-.sign
-    position: relative
-
-.sign::after
-    content: ''
-    position: absolute
-    top: 0
-    right: -21px
-    width: 1px
-    background: #dbd7d7
-    height: 100%
-
-    
-.registr form    
-    flex: 1 50%
-
-    
-.error, .errorCreate
-    display: block
-    background: rgb(249, 211, 211)
-    border: 2px solid rgb(228, 110, 110)
-    border-radius: 5px
-    color: rgb(177, 91, 91)
-    padding: 15px
-    margin-bottom: 10px

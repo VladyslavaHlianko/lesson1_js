@@ -1,159 +1,277 @@
-import React, { useEffect, useState } from "react";
-import "./style.sass";
-
-import { Box, Button, TextField, Typography } from "@mui/material";
-
-
-export default function Login({
-  handleSignIn,
-  handleCreateAccount,
-  signInError,
-  createError,
-}) {
-  const [emailSignIn, setEmailSignIn] = useState("");
-  const [passwordSignIn, setPasswordSignIn] = useState("");
-
-  const [createName, setCreateName] = useState("");
-  const [createEmail, setCreateEmail] = useState("");
-  const [createPassword, setCreatePassword] = useState("");
-  const [verifyPassword, setVerifyPassword] = useState("");
-
-  const [errorSignIn, setErrorSignIn] = useState("");
-  const [errorCreate, setErrorCreate] = useState("");
-
-  const handleSubmitSignIn = (event) => {
-    event.preventDefault();
-    handleSignIn(emailSignIn, passwordSignIn);
+import React, { useEffect } from 'react';
+import "./style.sass"
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  setEmailSignIn,
+  setPasswordSignIn,
+  setCreateName,
+  setCreateEmail,
+  setCreatePassword,
+  setVerifyPassword,
+  setErrorSignIn,
+  setErrorCreate,
+  signIn,
+  createAccount,
+} from '../../store/actions';
+import { Form, Field, Formik} from 'formik';
+import { Box, Button, Typography } from '@mui/material';
+  
+const Login = () => {
+  const dispatch = useDispatch();
+  
+  const {
+    emailSignIn,
+    passwordSignIn,
+    createName,
+    createEmail,
+    createPassword,
+    verifyPassword,
+    errorSignIn,
+    errorCreate,
+  } = useSelector((state) => state);
+  
+  const handleSignIn = () => {
+    dispatch(signIn(emailSignIn, passwordSignIn));
   };
-
-  const handleSubmitCreateAccount = (event) => {
-    event.preventDefault();
-    handleCreateAccount(
-      createName,
-      createEmail,
-      createPassword,
-      verifyPassword
-    );
+  
+  const handleCreateAccount = () => {
+    dispatch(createAccount(createName, createEmail, createPassword, verifyPassword));
   };
-
+  
+  const handleSubmitSignIn = (values) => {
+    handleSignIn();
+  };
+  
+  const handleSubmitCreateAccount = (values) => {
+    handleCreateAccount();
+  };
+  
   useEffect(() => {
-    setErrorSignIn(signInError);
-  }, [signInError]);
-
+    dispatch(setErrorSignIn(''));
+  }, [emailSignIn, passwordSignIn]);
+  
   useEffect(() => {
-    setErrorCreate(createError);
-  }, [createError]);
+    dispatch(setErrorCreate(''));
+  }, [createName, createEmail, createPassword, verifyPassword]);
+
 
   return (
-    <Box sx={{ background: "#f8f8f8", Width: "100%", height: "100%", padding: "0 120px"
-  }}>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        gap={4}
-        className="registr"
-      >
-        <form onSubmit={handleSubmitSignIn} sx={{ flex: "1 50%" }} className="sign">
-          <Typography variant="h1" sx={{ fontSize: "28px", fontWeight: "bold", marginBottom: "10px" }}>
+    <Box
+      sx={{
+        background: '#f8f8f8',
+        Width: '100%',
+        height: '100%',
+        padding: '50px 120px 0',
+      }}
+    >
+      <Box display="flex" justifyContent="space-between" gap="41px">
+        <Box
+          component="div"
+          sx={{
+            flex: '1 50%',
+            position: 'relative',
+            '&::after': {
+              content: '""',
+              position: 'absolute',
+              top: '0',
+              right: '-21px',
+              width: '1px',
+              background: '#dbd7d7',
+              height: '100%',
+            },
+          }}
+        >
+          <Typography
+            variant="h1"
+            sx={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '10px' }}
+          >
             Secure Sign In
           </Typography>
-          <Typography variant="h2" sx={{ fontSize: 16, margin: "0 0 15px", fontWeight: "600" }}>
+          <Typography
+            variant="h2"
+            sx={{ fontSize: 16, margin: '0 0 15px', fontWeight: '600' }}
+          >
             For current customers
           </Typography>
-          {signInError && (
-            <Typography variant="div" className="error" sx={{ display: "block", margin: "15px 0 5px" }}>
-              {signInError}
+          {errorSignIn && (
+            <Typography
+              variant="div"
+              sx={{
+                display: 'block',
+                margin: '0 0 10px',
+                background: 'rgb(249, 211, 211)',
+                border: '2px solid rgb(228, 110, 110)',
+                borderRadius: '5px',
+                color: 'rgb(177, 91, 91)',
+                padding: '15px',
+              }}
+            >
+              {errorSignIn}
             </Typography>
           )}
-          <TextField
-            type="email"
-            placeholder="Email Address"
-            value={emailSignIn}
-            onChange={(event) => setEmailSignIn(event.target.value)}
-            required
-            fullWidth
-            sx={{ borderRadius: "5px", margin: "5px 0 5px", backgroundColor: "white" }}
-          />
-          <TextField
-            type="password"
-            placeholder="Password"
-            value={passwordSignIn}
-            onChange={(event) => setPasswordSignIn(event.target.value)}
-            required
-            fullWidth
-            sx={{ borderRadius: "5px", margin: "5px 0 20px", backgroundColor: "white" }}
-          />
-          <Button variant="contained" type="submit" className="sign_in" sx={{ ...buttonStyles }}>
-            Sign in
-          </Button>
-        </form>
-        <form onSubmit={handleSubmitCreateAccount} sx={{ flex: "1 50%" }} className="create">
-          <Typography variant="h1" sx={{ fontSize: 28, fontWeight: "bold", marginBottom: "10px" }}>
-            Quick Registration
+          <Formik
+            initialValues={{
+              email: emailSignIn,
+              password: passwordSignIn,
+            }}
+            onSubmit={handleSubmitSignIn}
+          >
+            <Form>
+              <Field
+                type="email"
+                name="email" 
+                placeholder="Email Address"
+                required
+                value={emailSignIn} 
+                onChange={(event) => dispatch(setEmailSignIn(event.target.value))}    
+                className="input-field"
+              />
+              <Field
+                type="password"
+                name="password" 
+                placeholder="Password"
+                required
+                value={passwordSignIn}
+                onChange={(event) => dispatch(setPasswordSignIn(event.target.value))}      
+                className="input"
+              />
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{
+                  background: 'rgb(207, 23, 23)',
+                  color: 'white',
+                  border: 'none',
+                  cursor: 'pointer',
+                  borderRadius: '30px',
+                  padding: '10px 30px',
+                  fontWeight: 'bold',
+                  margin: '0 auto 0 0',
+                  '&:hover': {
+                    background: 'rgb(207, 23, 23)',
+                  },
+                }}
+              >
+                Sign In
+              </Button>
+            </Form>
+          </Formik>
+        </Box>
+        <Box
+          component="div"
+          sx={{
+            flex: '1 50%',
+            position: 'relative',
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: '0',
+              left: '-21px',
+              width: '1px',
+              background: '#dbd7d7',
+              height: '100%',
+            },
+          }}
+        >
+          <Typography
+            variant="h1"
+            sx={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '10px' }}
+          >
+            Create Account
           </Typography>
-          <Typography variant="h2" sx={{ fontSize: 16, margin: "0 0 15px", fontWeight: 600 }}>
+          <Typography
+            variant="h2"
+            sx={{ fontSize: 16, margin: '0 0 15px', fontWeight: '600' }}
+          >
             For new customers
           </Typography>
-          {createError && (
-            <Typography variant="div" className="errorCreate" sx={{ display: "block",  margin: "15px 0 5px" }}>
-              {createError}
+          {errorCreate && (
+            <Typography
+              variant="div"
+              sx={{
+                display: 'block',
+                margin: '0 0 10px',
+                background: 'rgb(249, 211, 211)',
+                border: '2px solid rgb(228, 110, 110)',
+                borderRadius: '5px',
+                color: 'rgb(177, 91, 91)',
+                padding: '15px',
+              }}
+            >
+              {errorCreate}
             </Typography>
           )}
-          <TextField
-            id="createName"
-            type="text"
-            placeholder="Full name"
-            value={createName}
-            onChange={(event) => setCreateName(event.target.value)}
-            required
-            fullWidth
-            sx={{ borderRadius: "5px", margin: "5px 0 5px", backgroundColor: "white" }}
-          />
-          <TextField
-            id="createEmail"
-            type="email"
-            placeholder="Email Address"
-            value={createEmail}
-            onChange={(event) => setCreateEmail(event.target.value)}
-            required
-            fullWidth
-            sx={{ borderRadius: "5px", margin: "5px 0 5px", backgroundColor: "white" }}
-          />
-          <TextField
-            id="password"
-            type="password"
-            placeholder="Password"
-            value={createPassword}
-            onChange={(event) => setCreatePassword(event.target.value)}
-            required
-            fullWidth
-            sx={{ borderRadius: "5px", margin: "5px 0 5px", backgroundColor: "white" }}
-          />
-          <TextField
-            id="verify_password"
-            type="password"
-            placeholder="Verify Password"
-            value={verifyPassword}
-            onChange={(event) => setVerifyPassword(event.target.value)}
-            required
-            fullWidth
-            sx={{ borderRadius: "5px", margin: "5px 0 20px", backgroundColor: "white" }}
-          />
-          <Button variant="contained" type="submit" className="sign_in" sx={{ ...buttonStyles }}>
-            Create Account
-          </Button>
-        </form>
+          <Formik 
+            initialValues={{
+              name: createName,
+              email: createEmail,
+              password: createPassword,
+              verifyPassword: verifyPassword,
+            }}
+            onSubmit={handleSubmitCreateAccount}
+          >
+            <Form>
+              <Field
+                type="text"
+                name="name"
+                placeholder="Name"
+                required
+                value={createName}
+                className="input-field"                
+                onChange={(event) => dispatch(setCreateName(event.target.value))}
+              />
+              <Field
+                type="email"
+                name="email"
+                placeholder="Email Address"
+                required
+                value={createEmail}
+                onChange={(event) => dispatch(setCreateEmail(event.target.value))}    
+                className="input-field"
+              />
+              <Field
+                type="password"            
+                name="password"
+                placeholder="Password"
+                onChange={(event) => dispatch(setCreatePassword(event.target.value))}    
+                required
+                value={createPassword} 
+                className="input-field"
+              />
+              <Field
+                type="password"
+                name="verifyPassword"
+                placeholder="Verify Password"
+                onChange={(event) => dispatch(setVerifyPassword(event.target.value))}    
+                required
+                value={verifyPassword}
+                className="input"
+              />
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{
+                  background: 'rgb(207, 23, 23)',
+                  color: 'white',
+                  border: 'none',
+                  cursor: 'pointer',
+                  borderRadius: '30px',
+                  padding: '10px 30px',
+                  fontWeight: 'bold',
+                  margin: '0 auto 0 0',
+                  '&:hover': {
+                    background: 'rgb(207, 23, 23)',
+                  },
+                }}
+              >
+                Create Account
+              </Button>
+            </Form>
+          </Formik>
+        </Box>
       </Box>
     </Box>
   );
 }
 
-const buttonStyles = {
-  background: "rgb(207, 23, 23)",
-  color: "white",
-  border: "none",
-  cursor: "pointer",
-  borderRadius: "30px",
-  padding: "10px 30px",
-  fontWeight: "bold",
-};
+export default Login;
