@@ -71,16 +71,16 @@ export default function Header() {
           >
             {loggedInUser ? (
               <>
-                <Typography variant="body1" component="p" sx={{ m: 0 }}>
+                <Typography component="p" sx={{ m: 0 }}>
                   Hi,
                 </Typography>
-                <Typography component="span" to="/home" sx={{ color: "white" }}>
+                <Typography component={Link} to="/account" sx={{ color: "white", textDecoration:"none" }}>
                   {userName}
                 </Typography>
               </>
             ) : (
               <>
-                <Typography variant="body1" component="p" sx={{ m: 0 }}>
+                <Typography component="p" sx={{ m: 0 }}>
                   Hi,
                 </Typography>
                 <Typography
@@ -99,6 +99,46 @@ export default function Header() {
               </>
             )}
           </Box>
+          {loggedInUser ? (
+            <>
+          <Box
+            component={Link}
+            to="/shoppingCart"
+            sx={{
+              position: "relative",
+              "&::before": {
+                content: '""',
+                position: "absolute",
+                top: "-3px",
+                right: "-7px",
+                width: "15px",
+                height: "15px",
+                borderRadius: "50%",
+                background: "white",
+              },
+            }}
+          >
+            <Box
+              component="span"
+              sx={{
+                color: "rgb(68, 158, 68)",
+                position: "absolute",
+                right: "-3px",
+                top: "-4.5px",
+                fontSize: "12px",
+              }}
+            >
+              {basketCount}
+            </Box>
+            <CardMedia
+              component="img"
+              src={`./image/shopping-cart.png`}
+              alt="ShoppingCart"
+              sx={{ height: "25px" }}
+            />
+          </Box>
+          </>) : (
+              <>
           <Box
             component={Link}
             to="/login"
@@ -135,6 +175,8 @@ export default function Header() {
               sx={{ height: "25px" }}
             />
           </Box>
+              </> 
+            )}
           <Typography
             to="#"
             onClick={logOut}

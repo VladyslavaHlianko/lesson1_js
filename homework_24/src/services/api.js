@@ -64,24 +64,12 @@ const API = {
       });
   },
 
-  getProductsFromDatabase: async () => {
-    try {
-      const response = await fetch(
-        "https://634e9f834af5fdff3a625f84.mockapi.io/products",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("Помилка отримання товарів:", error);
-      throw error;
-    }
+  deleteUser: async (id) => {
+    return await fetch(`https://634e9f834af5fdff3a625f84.mockapi.io/users/${id}`, {
+    method: 'DELETE',
+    }).then(res => res)
   },
+
 
   updateUserData: async (userId, userData) => {
     try {

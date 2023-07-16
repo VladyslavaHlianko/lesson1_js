@@ -66,7 +66,7 @@ const Home = ({ updateCartItemCount }) => {
         const user = JSON.parse(localStorage.getItem("loggedInUser"));
         setLoggedInUser(user);
   
-        const fetchedProducts = await API.getProductsFromDatabase();
+        const fetchedProducts = await API.getProducts();
         console.log(fetchedProducts);
   
         const groupedProducts = {};

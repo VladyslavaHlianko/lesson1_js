@@ -6,6 +6,8 @@ import Home from "./pages/home";
 import { Route, Routes, Navigate } from "react-router-dom";
 import NotFound from "./pages/notFound";
 import PrivateRoute from "./pages/components/PrivateRoute.jsx";
+import ShoppingCart from "./pages/shoppingCart";
+import Account from "./pages/account";
 
 function App() {
   const [basketCount, setBasketCount] = useState(0);
@@ -47,6 +49,8 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route path="/shoppingCart" element={<ShoppingCart updateCartItemCount={updateCartItemCount} />} />
+        <Route path="/account" element={<Account />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
